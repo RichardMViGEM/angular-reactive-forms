@@ -14,7 +14,19 @@
     </label>
   </div>
 
-  <div formArrayName="secretLairs" class="well well-lg">
+  <div class="form-group radio">
+      <h4>Super power:</h4>
+      <label class="center-block"><input type="checkbox" formControlName="power" value="flight">Flight</label>
+      <label class="center-block"><input type="checkbox" formControlName="power" value="x-ray vision">X-ray vision</label>
+      <label class="center-block"><input type="checkbox" formControlName="power" value="strength">Strength</label>
+    </div>
+    <div class="checkbox">
+      <label class="center-block">
+        <input type="checkbox" formControlName="sidekick">I have a sidekick.
+      </label>
+    </div>
+
+  <div formArrayName="secretLairs" class="well well-lg" >
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
@@ -22,20 +34,20 @@
             Secret Lairs
           </h3>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 text-left">
           <!-- secret lairs expand/collapse button -->
           <button
-            (click)="togglesecretLairsCollapsed()"
+            (click)="toggleSecretLairsCollapsed()"
             type="button"
             class="btn btn-info btn-sm"
             data-toggle="collapse"
-            data-target="#secretLairsCollapse">
+            data-target="#secretLairsCollapsable">
             <div *ngIf="secretLairsCollapsed; else collapseSecretLairsButton">
                 <span class="glyphicon glyphicon-collapse-down"></span>
             </div>
             <ng-template #collapseSecretLairsButton>
-              <div id="collapseSecretLairsButton">
-                  <span class="glyphicon glyphicon-collapse-up"></span>
+              <div>
+                <span class="glyphicon glyphicon-collapse-up"></span>
               </div>
             </ng-template>
           </button>
@@ -45,8 +57,9 @@
     <!--
       setting the formArrayName="secretLairs" establishes the secretLairs FormArray as
       the context for form controls in the inner, repeated HTML template
+      note that by default, elements with the bootstrap class "collapse" are closed by default; in order to have it open, use "collapse in"
     !-->
-    <div id="secretLairsCollapse" class="collapse">
+    <div id="secretLairsCollapsable" class="collapse">
       <div *ngFor="let address of secretLairs.controls; let i=index" [formGroupName]="i" >
         <!-- The repeated address template -->
             <!--
@@ -140,19 +153,9 @@
       </div>
 
     </div>
-
-  <div class="form-group radio">
-    <h4>Super power:</h4>
-    <label class="center-block"><input type="checkbox" formControlName="power" value="flight">Flight</label>
-    <label class="center-block"><input type="checkbox" formControlName="power" value="x-ray vision">X-ray vision</label>
-    <label class="center-block"><input type="checkbox" formControlName="power" value="strength">Strength</label>
-  </div>
-  <div class="checkbox">
-    <label class="center-block">
-      <input type="checkbox" formControlName="sidekick">I have a sidekick.
-    </label>
-  </div>
 </form>
 
+<!--
 <p>Form value: {{ heroForm.value | json }}</p>
 <p>Form status: {{ heroForm.status | json }}</p>
+!-->

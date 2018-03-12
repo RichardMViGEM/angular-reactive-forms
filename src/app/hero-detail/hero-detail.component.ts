@@ -23,6 +23,8 @@ export class HeroDetailComponent implements OnChanges {
   nameChangeLog: string[] = [];
   secretLairsCollapsed;
 
+  defaultCollapseSubMenus = true;     // true: submenus are collapsed OnInit; false: submenus are expanded OnInit
+
   /** Virtual Properties
    * ###################
    */
@@ -39,7 +41,19 @@ export class HeroDetailComponent implements OnChanges {
    * ##########
    */
 
-  togglesecretLairsCollapsed(): void {
+   /** toggle secret lairs submenu
+    * toggles status expanded of the Secret Lairs submenu
+    * if not defiend; sets it according to defaultCollapseSubMenus
+    * defaultCollapseSubMenus = true   -> submenus are initially collapsed
+    * defaultCollapseSubMenus = false  -> submenus are initially expanded
+    */
+  // togglesecretLairsCollapsed(newValue: boolean = this.defaultCollapseSubMenus): void {
+    toggleSecretLairsCollapsed(): void {
+    if (typeof this.secretLairsCollapsed =='undefined') {
+      this.secretLairsCollapsed = this.defaultCollapseSubMenus;
+      return;
+    }
+
     if(this.secretLairsCollapsed) {
       this.secretLairsCollapsed = false;
     } else {
@@ -54,9 +68,7 @@ export class HeroDetailComponent implements OnChanges {
     private formBuilder: FormBuilder,
     private heroService: HeroService
   ) {
-    this.secretLairsCollapsed = true;
     this.createForm();
-    // this.logNameChange();      // display name change log
   }
 
   /** createForm
@@ -96,12 +108,18 @@ export class HeroDetailComponent implements OnChanges {
     this.rebuildForm();
   }
 
+  ngOnInit() {
+    this.toggleSecretLairsCollapsed();
+  }
+
   rebuildForm() {
     this.heroForm.reset({
       name: this.hero.name
     });
     this.setAddresses(this.hero.addresses);
     this.setAutomotives(this.hero.automotives);
+
+    // this.togglesecretLairsCollapsed();
   }
 
   addLair() {
@@ -109,7 +127,6 @@ export class HeroDetailComponent implements OnChanges {
   }
 
   removeLair(addressToRemove: number) {
-    //  console.log('INIT: removeLair(); addressToRemove passed: ' + addressToRemove);
     this.secretLairs.removeAt(addressToRemove);
     this.heroForm.markAsTouched();
   }
@@ -138,7 +155,8 @@ export class HeroDetailComponent implements OnChanges {
     const saveHero: Hero = {
       id: this.hero.id,
       name: formModel.name as string,
-      addresses: secretLairsDeepCopy
+      addresses: secretLairsDeepCopy,
+      automotives: this.hero.automotives
     }
 
     return saveHero;
@@ -147,8 +165,4 @@ export class HeroDetailComponent implements OnChanges {
   revert() {
     this.rebuildForm();
   }
-
-  // ngOnInit() {
-  // }
-
 }
