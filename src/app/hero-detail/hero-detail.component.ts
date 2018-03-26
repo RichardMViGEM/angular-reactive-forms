@@ -106,10 +106,12 @@ export class HeroDetailComponent implements OnChanges {
    */
   ngOnChanges() {
     this.rebuildForm();
+    console.log('@INIT: ngOnChanges: secretLairsCollapsed: ' + this.secretLairsCollapsed);
   }
 
   ngOnInit() {
     this.toggleSecretLairsCollapsed();
+    console.log('@INIT: ngOnInit: secretLairsCollapsed: ' + this.secretLairsCollapsed);
   }
 
   rebuildForm() {
@@ -118,8 +120,6 @@ export class HeroDetailComponent implements OnChanges {
     });
     this.setAddresses(this.hero.addresses);
     this.setAutomotives(this.hero.automotives);
-
-    // this.togglesecretLairsCollapsed();
   }
 
   addLair() {
